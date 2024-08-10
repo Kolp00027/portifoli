@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création Artisanale</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(189, 186, 186);
+        }
+
+        .container {
+            background-color: #f0f3ca;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .upload-container {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .upload-container input[type="file"] {
+            display: none;
+        }
+
+        .upload-container .icon-plus {
+            font-size: 50px;
+            color: #888;
+        }
+
+        .image-gallery {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .image-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-item:hover {
+            transform: scale(1.1);
+        }
+
+        .image-gallery img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #ccc;
+        }
+
+        .remove-button {
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: 15% auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .upload-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .image-gallery img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                width: 95%;
+            }
+
+            .upload-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .image-gallery img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Création Artisanale</h1>
+
+        <div class="upload-container" onclick="document.getElementById('file-input').click();">
+            <span class="icon-plus">+</span>
+            <input type="file" id="file-input" accept="image/*" multiple onchange="previewImages(event);">
+        </div>
+
+        <div class="image-gallery" id="image-gallery"></div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modal-image">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", loadSavedImages);
+
+        function loadSavedImages() {
+            const gallery = document.getElementById('image-gallery');
+            const savedImages = JSON.parse(localStorage.getItem('artisan_images')) || [];
+
+            savedImages.forEach((imageSrc, index) => {
+                const imageItem = createImageItem(imageSrc, index);
+                gallery.appendChild(imageItem);
+            });
+        }
+
+        function previewImages(event) {
+            const files = event.target.files;
+            const gallery = document.getElementById('image-gallery');
+            const savedImages = JSON.parse(localStorage.getItem('artisan_images')) || [];
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const imageSrc = e.target.result;
+                    savedImages.push(imageSrc);
+                    localStorage.setItem('artisan_images', JSON.stringify(savedImages));
+
+                    const imageItem = createImageItem(imageSrc, savedImages.length - 1);
+                    gallery.appendChild(imageItem);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function createImageItem(src, index) {
+            const imageItem = document.createElement('div');
+            imageItem.className = 'image-item';
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.onclick = () => openModal(src);
+
+            const removeButton = document.createElement('button');
+            removeButton.className = 'remove-button';
+            removeButton.textContent = 'Retirer';
+            removeButton.onclick = () => removeImage(index, imageItem);
+
+            imageItem.appendChild(img);
+            imageItem.appendChild(removeButton);
+
+            return imageItem;
+        }
+
+        function removeImage(index, imageItem) {
+            const savedImages = JSON.parse(localStorage.getItem('artisan_images')) || [];
+            savedImages.splice(index, 1);
+            localStorage.setItem('artisan_images', JSON.stringify(savedImages));
+
+            imageItem.remove();
+            refreshGallery();
+        }
+
+        function refreshGallery() {
+            const gallery = document.getElementById('image-gallery');
+            gallery.innerHTML = '';
+            loadSavedImages();
+        }
+
+        function openModal(src) {
+            const modal = document.getElementById('myModal');
+            const modalImage = document.getElementById('modal-image');
+            modalImage.src = src;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

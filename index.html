@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="Style.css" />
+    <style>
+      .section {
+        background-color: dimgrey;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 10px;
+        width: 200px;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+      }
+
+      .section:hover {
+        background-color: darkred;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .title {
+        font-size: 2rem;
+      }
+
+      .date-range {
+        font-size: 1rem;
+      }
+
+      .horizontal-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .image-gallery {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .image-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .gallery-image {
+        width: 100px; /* Taille réduite */
+        height: 100px; /* Taille réduite */
+        object-fit: cover;
+        border-radius: 10px; /* Bordures arrondies */
+        cursor: url("chemin/vers/votre-curseur.png"), auto; /* Remplacez par le chemin vers votre image de curseur */
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-image:hover {
+        transform: scale(1.05); /* Légère augmentation au survol */
+      }
+
+      .lightbox {
+        display: none; /* Masqué par défaut */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .lightbox-image {
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 10px;
+      }
+
+      .close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2rem;
+        color: white;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .section {
+          width: 150px;
+          height: 100px;
+          font-size: 14px;
+        }
+
+        .title {
+          font-size: 1.5rem;
+        }
+
+        .date-range {
+          font-size: 0.9rem;
+        }
+
+        .gallery-image {
+          width: 80px;
+          height: 80px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .section {
+          width: 120px;
+          height: 80px;
+          font-size: 12px;
+        }
+
+        .title {
+          font-size: 1.2rem;
+        }
+
+        .date-range {
+          font-size: 0.8rem;
+        }
+
+        .gallery-image {
+          width: 60px;
+          height: 60px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Premier Container -->
+    <div class="container">
+      <div class="lines-container top-right">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+      <div class="cross-container">
+        <span class="cross">X</span>
+        <span class="cross">X</span>
+        <span class="cross">X</span>
+        <span class="cross">X</span>
+        <span class="cross">X</span>
+        <span class="cross">X</span>
+      </div>
+      <h1 class="title">PORTFOLIO</h1>
+      <p class="date-range">2022 ------------ 2024</p>
+      <div class="lines-container bottom-left">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+
+    <!-- Deuxième Container -->
+    <div class="vertical-container">
+      <div class="text-content">
+        <h2 class="about-title">A PROPOS</h2>
+        <h3 class="about-subtitle">DE MOI</h3>
+        <p class="about-description">
+          Je suis un artiste peintre et sculpteur explorant les liens entre
+          matière et émotion, avec un focus sur la connexion entre nature et
+          humanité. Je travaille principalement le bois, un matériau qui
+          symbolise force et fragilité. Mes sculptures capturent l'énergie brute
+          du bois, tandis que mes peintures explorent les formes et couleurs
+          pour susciter des émotions. Inspiré par le masque Goli Kple Kple, mon
+          art met en lumière la déconnexion entre la civilisation moderne et les
+          principes spirituels, tout en cherchant à reconnecter l'humanité avec
+          son essence profonde.
+        </p>
+        <p class="contacts-title">Mes contacts</p>
+        <div class="contacts">
+          <div class="contact-item">
+            <i class="phone-icon">&#128222;</i>
+            <span class="contact-text">07 59 21 0551 / 01 03 39 1969</span>
+          </div>
+          <div class="contact-item">
+            <i class="email-icon">&#9993;</i>
+            <span class="contact-text">Kangamickael1@gmail.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conteneurs Boutons Horizontaux -->
+    <div class="horizontal-container">
+      <button class="section" onclick="window.location.href='mainOri.html';">
+        Création originale
+      </button>
+      <button class="section" onclick="window.location.href='mainAr.html';">
+        Création artisanale
+      </button>
+    </div>
+
+    <!-- Conteneur pour les Images -->
+    <div class="image-gallery">
+      <div class="image-row">
+        <img src="Image/Mickeal 1.jpg" alt="Mickeal 1" class="gallery-image" />
+        <img src="Image/Mickeal 2.jpg" alt="Mickeal 2" class="gallery-image" />
+        <img src="Image/Mickeal 3.jpg" alt="Mickeal 3" class="gallery-image" />
+        <img src="Image/Mickeal 4.jpg" alt="Mickeal 4" class="gallery-image" />
+        <img src="Image/Mickeal 5.jpg" alt="Mickeal 5" class="gallery-image" />
+        <img src="Image/Mickeal 6.jpg" alt="Mickeal 6" class="gallery-image" />
+        <img src="Image/Mickeal 7.jpg" alt="Mickeal 7" class="gallery-image" />
+        <img src="Image/Mickeal 8.jpg" alt="Mickeal 8" class="gallery-image" />
+        <img src="Image/Mickeal 9.jpg" alt="Mickeal 9" class="gallery-image" />
+        <img
+          src="Image/Mickeal 10.jpg"
+          alt="Mickeal 10"
+          class="gallery-image" />
+        <img
+          src="Image/Mickeal 11.jpg"
+          alt="Mickeal 11"
+          class="gallery-image" />
+        <img
+          src="Image/Mickeal 12.jpg"
+          alt="Mickeal 12"
+          class="gallery-image" />
+        <img
+          src="Image/Mickeal 13.jpg"
+          alt="Mickeal 13"
+          class="gallery-image" />
+        <img
+          src="Image/Mickeal 14.jpg"
+          alt="Mickeal 14"
+          class="gallery-image" />
+        <img
+          src="Image/Mickeal 15.jpg"
+          alt="Mickeal 15"
+          class="gallery-image" />
+      </div>
+    </div>
+
+    <!-- Conteneur pour l'image en plein écran -->
+    <div id="lightbox" class="lightbox">
+      <span class="close">&times;</span>
+      <img class="lightbox-image" id="lightboxImage" />
+    </div>
+
+    <script>
+      // Sélection des éléments
+      const images = document.querySelectorAll(".gallery-image");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightboxImage");
+      const close = document.querySelector(".close");
+
+      // Fonction pour ouvrir l'image en plein écran
+      images.forEach((image) => {
+        image.addEventListener("click", () => {
+          lightbox.style.display = "flex";
+          lightboxImage.src = image.src;
+        });
+      });
+
+      // Fonction pour fermer le mode plein écran
+      close.addEventListener("click", () => {
+        lightbox.style.display = "none";
+      });
+
+      // Fermer le lightbox en cliquant à l'extérieur de l'image
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          lightbox.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
